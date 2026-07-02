@@ -94,7 +94,6 @@
   /* ---------- item cards ---------- */
   .item-card { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; border: 2px solid transparent; }
   .item-card.checked { border-color: var(--purple); background: var(--purple-light); }
-  .item-card.featured-emph { box-shadow: 0 0 0 2px #e5c15a inset, 0 1px 4px rgba(91,91,164,.08); }
   .checkbox {
     flex: none; width: 24px; height: 24px; border: 2px solid #c6c0dd; border-radius: 7px;
     margin-top: 2px; display: flex; align-items: center; justify-content: center;
@@ -103,7 +102,6 @@
   .item-card.checked .checkbox { background: var(--purple); border-color: var(--purple); }
   .item-card.checked .checkbox::after { content: "✓"; }
   .item-name { font-size: 15.5px; font-weight: 800; }
-  .item-badge { display: inline-block; font-size: 11px; font-weight: 700; color: var(--amber); background: var(--amber-bg); border-radius: 20px; padding: 1px 8px; margin-left: 4px; vertical-align: 2px; }
   .item-desc { font-size: 13.5px; color: var(--text-sub); margin-top: 3px; }
   .item-price { font-size: 13.5px; font-weight: 700; color: var(--purple-deep); margin-top: 5px; }
 
@@ -147,7 +145,7 @@
   </div>
   <div class="header-titles">
     <h1>認識您的麻醉</h1>
-    <div class="subtitle">安全 ・ 舒適 ・ 更快恢復<br>花 3 分鐘，了解您的麻醉方式與加值選項</div>
+    <div class="subtitle">安全 ・ 舒適 ・ 更快恢復<br>花 3 分鐘，了解您的麻醉方式與照護選項</div>
   </div>
 </div>
 
@@ -160,7 +158,7 @@
       <div class="steps-row">
         <div class="step-item"><div class="step-num">1</div><div class="step-text">選擇您的<br>手術部位</div></div>
         <div class="step-arrow">›</div>
-        <div class="step-item"><div class="step-num">2</div><div class="step-text">認識麻醉方式<br>與自費選項</div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-text">認識麻醉方式<br>與照護選項</div></div>
         <div class="step-arrow">›</div>
         <div class="step-item"><div class="step-num">3</div><div class="step-text">勾選有興趣的<br>諮詢時出示摘要</div></div>
       </div>
@@ -179,15 +177,9 @@
     <div class="section-title">您可能接受的麻醉方式</div>
     <div class="section-note">點卡片可展開詳細說明</div>
     <div id="anes-list"></div>
-    <div id="featured-block">
-      <div class="section-title">⭐ 針對這類手術，特別推薦了解</div>
-      <div id="featured-list"></div>
-    </div>
-    <div id="common-block">
-      <div class="section-title">其他可以考慮的加值選項</div>
-      <div class="section-note">多數手術都適用</div>
-      <div id="common-list"></div>
-    </div>
+    <div class="section-title">您可以進一步了解的照護選項</div>
+    <div class="section-note">這些屬於自費項目；是否適合，請與麻醉醫師討論</div>
+    <div id="item-list"></div>
     <div class="card notice"><strong>📌 費用說明　</strong>本頁所列為參考費用，實際費用依院方公告與醫師評估後說明為準。</div>
   </div>
 
@@ -250,7 +242,7 @@ const ITEMS = {
   naldebain: { name: "Naldebain 長效止痛", desc: "手術前打一針，止痛效果可以持續好幾天。" },
   multimodal: { name: "多模式術後止痛", desc: "同時使用多種止痛方法，效果更好、副作用更少。" },
   aloxi: { name: "Aloxi 強效止吐藥", desc: "長效的強力止吐針，適合容易噁心、暈車體質的人。" },
-  tivaBis: { name: "全靜脈麻醉＋腦波深度監測", desc: "用點滴藥物取代吸入的麻醉氣體，醒來比較不噁心、頭腦比較清爽。" },
+  tivaBis: { name: "全靜脈麻醉＋腦波深度監測", desc: "用點滴藥物取代吸入的麻醉氣體，術後比較不容易噁心想吐，甦醒品質較穩定。" },
   bis: { name: "BIS 麻醉深度監測", desc: "額頭貼片監測麻醉深度，睡得剛剛好——不會中途醒來，也不會太深醒得慢。" },
   ani: { name: "ANI 疼痛指數監測", desc: "即時偵測您在麻醉中的疼痛反應，讓止痛藥給得剛剛好。" },
   rso2: { name: "腦部血氧濃度監測", desc: "隨時掌握腦部的氧氣供應，適合心臟手術等大型手術。" },
@@ -259,7 +251,7 @@ const ITEMS = {
   blanket: { name: "溫毯體溫控制", desc: "手術中蓋著溫風毯保持體溫，避免醒來發冷發抖。" },
   airway: { name: "進階呼吸道通氣術", desc: "使用喉頭罩等進階器材，讓麻醉中的呼吸更穩定暢通，適合特定手術姿勢或呼吸道較困難的病人。" },
   sedation: { name: "舒適鎮靜處置術", desc: "打點滴讓您在淺睡中完成檢查或小手術，全程專人監測，醒來多半沒有記憶。" },
-  byfavo: { name: "Byfavo 新型鎮靜藥", desc: "新一代鎮靜藥，藥效退得快、醒來清爽，有解藥可用更安心。" },
+  byfavo: { name: "Byfavo 新型鎮靜藥", desc: "新一代鎮靜藥，藥效消退快、甦醒和恢復比較快，有解藥可用更安心。" },
   precedex: { name: "Precedex 鎮靜止痛", desc: "兼具鎮靜和止痛效果，比較不影響呼吸，醒來較舒適。" },
 };
 
@@ -291,15 +283,17 @@ const ANES = {
 /* ================= 手術部位 ================= */
 const COMMON = ["bis", "ani", "blanket", "aloxi", "acetamol", "dynastat", "multimodal"];
 const SITES = [
-  { id: "head",    icon: "🧠", label: "頭頸部手術",   eg: "甲狀腺、頭頸腫瘤…",       main: ["ga"], alt: [],         featured: ["tivaBis", "omt", "airway"] },
-  { id: "ent",     icon: "👂", label: "耳鼻喉科手術", eg: "扁桃腺、中耳、鼻竇…",     main: ["ga"], alt: [],         featured: ["aloxi", "tivaBis", "airway"], emph: ["aloxi"] },
-  { id: "chest",   icon: "🫁", label: "胸腔／心臟手術", eg: "心臟、肺部…",           main: ["ga"], alt: [],         featured: ["rso2", "hfnc", "ivPCA", "omt"] },
-  { id: "abdomen", icon: "🩺", label: "腹部手術",     eg: "膽囊、疝氣、腸胃、肝膽…", main: ["ga"], alt: ["spinal"], altNote: "部分下腹部手術", featured: ["epiduralPCA", "ivPCA", "neuroBlock", "naldebain", "tivaBis"] },
-  { id: "obgyn",   icon: "🤰", label: "婦產科手術",   eg: "剖腹產、子宮、卵巢…",     main: ["spinal"], alt: ["ga"], featured: ["ivPCA", "epiduralPCA", "naldebain", "precedex"] },
-  { id: "ortho",   icon: "🦴", label: "骨科四肢手術", eg: "關節、骨折、韌帶…",       main: ["spinal", "ga"], alt: [], featured: ["neuroBlock", "ivPCA", "naldebain"], emph: ["neuroBlock"] },
-  { id: "spine",   icon: "🩻", label: "脊椎手術",     eg: "椎間盤、脊椎融合…",       main: ["ga"], alt: [],         featured: ["ivPCA", "multimodal", "naldebain", "omt"], emph: ["multimodal"] },
-  { id: "uro",     icon: "🚻", label: "泌尿科手術",   eg: "攝護腺、膀胱、結石…",     main: ["spinal"], alt: ["ga"], featured: ["ivPCA", "naldebain", "precedex"] },
-  { id: "exam",    icon: "🔍", label: "檢查類",       eg: "胃鏡、大腸鏡、支氣管鏡…", main: ["sedation"], alt: [],   featured: ["sedation", "byfavo", "precedex", "hfnc"], noCommon: true },
+  { id: "head",    icon: "🗣️", label: "頭頸部手術",   eg: "甲狀腺、頭頸腫瘤…",       main: ["ga"], alt: [],         items: ["tivaBis", "omt", "airway"] },
+  { id: "brain",   icon: "🧠", label: "腦部手術",     eg: "神經外科手術…",           main: ["ga"], alt: [],         items: ["rso2", "tivaBis", "omt"] },
+  { id: "ent",     icon: "👂", label: "耳鼻喉科手術", eg: "扁桃腺、中耳、鼻竇…",     main: ["ga"], alt: [],         items: ["aloxi", "tivaBis", "airway"] },
+  { id: "chest",   icon: "🫁", label: "胸腔／心臟手術", eg: "心臟、肺部…",           main: ["ga"], alt: [],         items: ["rso2", "hfnc", "ivPCA", "omt"] },
+  { id: "abdomen", icon: "🩺", label: "腹部手術",     eg: "膽囊、疝氣、腸胃、肝膽…", main: ["ga"], alt: ["spinal"], altNote: "部分下腹部手術", items: ["epiduralPCA", "ivPCA", "neuroBlock", "naldebain", "tivaBis"] },
+  { id: "gyn",     icon: "🌸", label: "婦科手術",     eg: "子宮、卵巢…",             main: ["ga", "spinal"], alt: [], items: ["ivPCA", "epiduralPCA", "naldebain", "precedex"] },
+  { id: "ob",      icon: "🤰", label: "產科手術",     eg: "剖腹產…",                 main: ["spinal"], alt: [],     items: ["ivPCA", "epiduralPCA", "naldebain", "precedex"] },
+  { id: "ortho",   icon: "🦴", label: "骨科四肢手術", eg: "關節、骨折、韌帶…",       main: ["spinal", "ga"], alt: [], items: ["neuroBlock", "ivPCA", "naldebain"] },
+  { id: "spine",   icon: "🩻", label: "脊椎手術",     eg: "椎間盤、脊椎融合…",       main: ["ga"], alt: [],         items: ["ivPCA", "multimodal", "naldebain", "omt"] },
+  { id: "uro",     icon: "🚻", label: "泌尿科手術",   eg: "攝護腺、膀胱、結石…",     main: ["spinal"], alt: ["ga"], items: ["ivPCA", "naldebain", "precedex"] },
+  { id: "exam",    icon: "🔍", label: "檢查類",       eg: "胃鏡、大腸鏡、支氣管鏡…", main: ["sedation"], alt: [],   items: ["sedation", "byfavo", "precedex", "hfnc"], noCommon: true },
 ];
 
 /* ================= 狀態與畫面切換 ================= */
@@ -341,14 +335,13 @@ function anesCard(key, isMain, note) {
     </div>`;
 }
 
-function itemCard(key, site) {
+function itemCard(key) {
   const it = ITEMS[key];
-  const emph = (site.emph || []).includes(key);
   return `
-    <div class="card item-card ${checked.has(key) ? "checked" : ""} ${emph ? "featured-emph" : ""}" onclick="toggleItem('${key}', this)">
+    <div class="card item-card ${checked.has(key) ? "checked" : ""}" onclick="toggleItem('${key}', this)">
       <div class="checkbox"></div>
       <div>
-        <div class="item-name">${it.name}${emph ? '<span class="item-badge">醫師特別推薦</span>' : ""}</div>
+        <div class="item-name">${it.name}</div>
         <div class="item-desc">${it.desc}</div>
         <div class="item-price">參考費用：${PRICES[key]}</div>
       </div>
@@ -363,10 +356,8 @@ function openSite(id) {
   document.getElementById("anes-list").innerHTML =
     s.main.map(k => anesCard(k, true)).join("") +
     s.alt.map(k => anesCard(k, false, s.altNote)).join("");
-  document.getElementById("featured-list").innerHTML = s.featured.map(k => itemCard(k, s)).join("");
-  const commonItems = s.noCommon ? [] : COMMON.filter(k => !s.featured.includes(k));
-  document.getElementById("common-block").style.display = commonItems.length ? "block" : "none";
-  document.getElementById("common-list").innerHTML = commonItems.map(k => itemCard(k, s)).join("");
+  const list = s.items.concat(s.noCommon ? [] : COMMON.filter(k => !s.items.includes(k)));
+  document.getElementById("item-list").innerHTML = list.map(k => itemCard(k)).join("");
   document.getElementById("summary-bar").style.display = "block";
   updateSummaryBtn();
   show("view-site");
