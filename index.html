@@ -231,27 +231,28 @@ const PRICES = {
   precedex: "約 620 元",
 };
 
-/* ================= 自費項目 ================= */
+/* ================= 自費項目（cat 決定分組排序：pain → nausea → monitor → breath → sedation） ================= */
+const CAT_ORDER = ["pain", "nausea", "monitor", "breath", "sedation"];
 const ITEMS = {
-  neuroBlock: { name: "神經阻斷術後止痛", desc: "在手術部位的神經旁打止痛藥，讓傷口在術後好幾個小時比較不痛。" },
-  epiduralPCA: { name: "硬脊膜外自控式止痛（PCA）", desc: "從背部放一條細軟管給止痛藥，覺得痛就自己按一下按鈕，適合傷口較大的手術。" },
-  ivPCA: { name: "靜脈自控式止痛（PCA）", desc: "止痛藥接在點滴上，覺得痛就自己按一下按鈕，馬上給藥。" },
-  acetamol: { name: "Acetamol 靜脈止痛", desc: "點滴版的「普拿疼」，效果比吃藥更快。" },
-  dynastat: { name: "Dynastat 消炎止痛", desc: "消炎止痛針，能減少嗎啡類藥物的用量和副作用。" },
-  naldebain: { name: "Naldebain 長效止痛", desc: "手術前打一針，止痛效果可以持續好幾天。" },
-  multimodal: { name: "多模式術後止痛", desc: "同時使用多種止痛方法，效果更好、副作用更少。" },
-  aloxi: { name: "Aloxi 強效止吐藥", desc: "長效的強力止吐針，適合容易噁心、暈車體質的人。" },
-  tivaBis: { name: "全靜脈麻醉＋腦波深度監測", desc: "用點滴藥物取代吸入的麻醉氣體，術後比較不容易噁心想吐，甦醒品質較穩定。" },
-  bis: { name: "BIS 麻醉深度監測", desc: "額頭貼片監測麻醉深度，睡得剛剛好——不會中途醒來，也不會太深醒得慢。" },
-  ani: { name: "ANI 疼痛指數監測", desc: "即時偵測您在麻醉中的疼痛反應，讓止痛藥給得剛剛好。" },
-  rso2: { name: "腦部血氧濃度監測", desc: "隨時掌握腦部的氧氣供應，適合心臟手術等大型手術。" },
-  omt: { name: "OMT 最適肌力處置", desc: "精準監測肌肉放鬆的程度，手術結束時用專用解藥讓力氣快速恢復，避免醒來無力、喘不上氣。" },
-  hfnc: { name: "HFNC 高流量氧氣", desc: "溫暖濕潤的高流量氧氣讓呼吸更輕鬆，戴著仍然可以說話。" },
-  blanket: { name: "溫毯體溫控制", desc: "手術中蓋著溫風毯保持體溫，避免醒來發冷發抖。" },
-  airway: { name: "進階呼吸道通氣術", desc: "使用喉頭罩等進階器材，讓麻醉中的呼吸更穩定暢通，適合特定手術姿勢或呼吸道較困難的病人。" },
-  sedation: { name: "舒適鎮靜處置術", desc: "打點滴讓您在淺睡中完成檢查或小手術，全程專人監測，醒來多半沒有記憶。" },
-  byfavo: { name: "Byfavo 新型鎮靜藥", desc: "新一代鎮靜藥，藥效消退快、甦醒和恢復比較快，有解藥可用更安心。" },
-  precedex: { name: "Precedex 鎮靜止痛", desc: "兼具鎮靜和止痛效果，比較不影響呼吸，醒來較舒適。" },
+  neuroBlock: { cat: "pain", name: "神經阻斷術後止痛", desc: "在手術部位的神經旁打止痛藥，讓傷口在術後好幾個小時比較不痛。" },
+  epiduralPCA: { cat: "pain", name: "硬脊膜外自控式止痛（PCA）", desc: "從背部放一條細軟管給止痛藥，覺得痛就自己按一下按鈕，適合傷口較大的手術。" },
+  ivPCA: { cat: "pain", name: "靜脈自控式止痛（PCA）", desc: "止痛藥接在點滴上，覺得痛就自己按一下按鈕，馬上給藥。" },
+  acetamol: { cat: "pain", name: "Acetamol 靜脈止痛", desc: "點滴版的「普拿疼」，效果比吃藥更快。" },
+  dynastat: { cat: "pain", name: "Dynastat 消炎止痛", desc: "消炎止痛針，能減少嗎啡類藥物的用量和副作用。" },
+  naldebain: { cat: "pain", name: "Naldebain 長效止痛", desc: "手術前打一針，止痛效果可以持續好幾天。" },
+  multimodal: { cat: "pain", name: "多模式術後止痛", desc: "同時使用多種止痛方法，效果更好、副作用更少。" },
+  aloxi: { cat: "nausea", name: "Aloxi 強效止吐藥", desc: "長效的強力止吐針，適合容易噁心、暈車體質的人。" },
+  tivaBis: { cat: "nausea", name: "全靜脈麻醉＋腦波深度監測", desc: "用點滴藥物取代吸入的麻醉氣體，術後比較不容易噁心想吐，甦醒品質較穩定。" },
+  bis: { cat: "monitor", name: "BIS 麻醉深度監測", desc: "額頭貼片監測麻醉深度，睡得剛剛好——不會中途醒來，也不會太深醒得慢。" },
+  ani: { cat: "monitor", name: "ANI 疼痛指數監測", desc: "即時偵測您在麻醉中的疼痛反應，讓止痛藥給得剛剛好。" },
+  rso2: { cat: "monitor", name: "腦部血氧濃度監測", desc: "隨時掌握腦部的氧氣供應，適合心臟手術等大型手術。" },
+  omt: { cat: "breath", name: "OMT 最適肌力處置", desc: "精準監測肌肉放鬆的程度，手術結束時用專用解藥讓力氣快速恢復，避免醒來無力、喘不上氣。" },
+  hfnc: { cat: "breath", name: "HFNC 高流量氧氣", desc: "溫暖濕潤的高流量氧氣讓呼吸更輕鬆，戴著仍然可以說話。" },
+  blanket: { cat: "breath", name: "溫毯體溫控制", desc: "手術中蓋著溫風毯保持體溫，避免醒來發冷發抖。" },
+  airway: { cat: "breath", name: "進階呼吸道通氣術", desc: "使用喉頭罩等進階器材，讓麻醉中的呼吸更穩定暢通，適合特定手術姿勢或呼吸道較困難的病人。" },
+  sedation: { cat: "sedation", name: "舒適鎮靜處置術", desc: "打點滴讓您在淺睡中完成檢查或小手術，全程專人監測，醒來多半沒有記憶。" },
+  byfavo: { cat: "sedation", name: "Byfavo 新型鎮靜藥", desc: "新一代鎮靜藥，藥效消退快、甦醒和恢復比較快，有解藥可用更安心。" },
+  precedex: { cat: "sedation", name: "Precedex 鎮靜止痛", desc: "兼具鎮靜和止痛效果，比較不影響呼吸，醒來較舒適。" },
 };
 
 /* ================= 三種麻醉方式介紹 ================= */
@@ -355,7 +356,8 @@ function openSite(id) {
   document.getElementById("anes-list").innerHTML =
     s.main.map(k => anesCard(k, true)).join("") +
     s.alt.map(k => anesCard(k, false, s.altNote)).join("");
-  const list = s.items.concat(s.noCommon ? [] : COMMON.filter(k => !s.items.includes(k)));
+  const list = s.items.concat(s.noCommon ? [] : COMMON.filter(k => !s.items.includes(k)))
+    .sort((a, b) => CAT_ORDER.indexOf(ITEMS[a].cat) - CAT_ORDER.indexOf(ITEMS[b].cat));
   document.getElementById("item-list").innerHTML = list.map(k => itemCard(k)).join("");
   document.getElementById("summary-bar").style.display = "block";
   updateSummaryBtn();
