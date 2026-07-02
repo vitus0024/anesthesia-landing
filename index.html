@@ -280,19 +280,19 @@ const ANES = {
 };
 
 /* ================= 手術部位 ================= */
-const COMMON = ["bis", "ani", "blanket", "aloxi", "acetamol", "dynastat", "multimodal"];
+const COMMON = ["bis", "ani", "blanket", "aloxi", "acetamol", "dynastat", "multimodal", "byfavo", "precedex"];
 const SITES = [
   { id: "head",    icon: "🗣️", label: "頭頸部手術",   eg: "甲狀腺、頭頸腫瘤…",       main: ["ga"], alt: [],         items: ["tivaBis", "omt", "airway"] },
-  { id: "brain",   icon: "🧠", label: "腦部手術",     eg: "神經外科手術…",           main: ["ga"], alt: [],         items: ["rso2", "tivaBis", "omt"] },
+  { id: "brain",   icon: "🧠", label: "腦部手術",     eg: "神經外科手術…",           main: ["ga"], alt: [],         items: ["tivaBis", "omt"] },
   { id: "ent",     icon: "👂", label: "耳鼻喉科手術", eg: "扁桃腺、中耳、鼻竇…",     main: ["ga"], alt: [],         items: ["aloxi", "tivaBis", "airway"] },
-  { id: "chest",   icon: "🫁", label: "胸腔／心臟手術", eg: "心臟、肺部…",           main: ["ga"], alt: [],         items: ["rso2", "hfnc", "ivPCA", "omt"] },
+  { id: "chest",   icon: "🫁", label: "胸腔／心臟手術", eg: "心臟、肺部…",           main: ["ga"], alt: [],         items: ["rso2", "neuroBlock", "ivPCA", "omt"] },
   { id: "abdomen", icon: "🩺", label: "腹部手術",     eg: "膽囊、疝氣、腸胃、肝膽…", main: ["ga"], alt: ["spinal"], altNote: "部分下腹部手術", items: ["epiduralPCA", "ivPCA", "neuroBlock", "naldebain", "tivaBis"] },
-  { id: "gyn",     icon: "🌸", label: "婦科手術",     eg: "子宮、卵巢…",             main: ["ga", "spinal"], alt: [], items: ["ivPCA", "epiduralPCA", "naldebain", "precedex"] },
+  { id: "gyn",     icon: "🌸", label: "婦科手術",     eg: "子宮、卵巢…",             main: ["ga", "spinal"], alt: [], items: ["ivPCA", "epiduralPCA", "naldebain", "precedex", "tivaBis"] },
   { id: "ob",      icon: "🤰", label: "產科手術",     eg: "剖腹產…",                 main: ["spinal"], alt: [],     items: ["ivPCA", "epiduralPCA", "naldebain", "precedex"] },
-  { id: "ortho",   icon: "🦴", label: "骨科四肢手術", eg: "關節、骨折、韌帶…",       main: ["spinal", "ga"], alt: [], items: ["neuroBlock", "ivPCA", "naldebain"] },
+  { id: "ortho",   icon: "🦴", label: "骨科四肢手術", eg: "關節、骨折、韌帶…",       main: ["spinal", "ga"], alt: [], items: ["neuroBlock", "ivPCA", "naldebain", "sedation"] },
   { id: "spine",   icon: "🩻", label: "脊椎手術",     eg: "椎間盤、脊椎融合…",       main: ["ga"], alt: [],         items: ["ivPCA", "multimodal", "naldebain", "omt"] },
   { id: "uro",     icon: "🚻", label: "泌尿科手術",   eg: "攝護腺、膀胱、結石…",     main: ["spinal"], alt: ["ga"], items: ["ivPCA", "naldebain", "precedex"] },
-  { id: "exam",    icon: "🔍", label: "檢查類",       eg: "胃鏡、大腸鏡、支氣管鏡…", main: ["sedation"], alt: [],   items: ["sedation", "byfavo", "precedex", "hfnc"], noCommon: true },
+  { id: "exam",    icon: "🔍", label: "檢查類",       eg: "胃鏡、大腸鏡、支氣管鏡…", main: ["sedation"], alt: [],   items: ["byfavo", "hfnc"], noCommon: true },
 ];
 
 /* ================= 狀態與畫面切換 ================= */
