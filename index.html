@@ -35,12 +35,18 @@
     border-radius: 0 0 22px 22px;
   }
   .header-nav { display: flex; align-items: center; justify-content: space-between; max-width: 560px; margin: 0 auto; }
-  .hosp-brand { display: flex; align-items: center; gap: 8px; }
+  .hosp-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .hosp-brand img { width: 44px; height: 44px; background: #fff; border-radius: 50%; padding: 3px; }
-  .hosp-name { display: flex; flex-direction: column; line-height: 1.25; }
+  .hosp-name { display: flex; flex-direction: column; line-height: 1.25; white-space: nowrap; }
   .hosp-sub { font-size: 11px; opacity: .85; }
   .hosp-main { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-  .dept-name { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+  .dept-name { font-size: 22px; font-weight: 700; letter-spacing: 2px; white-space: nowrap; }
+  .header-nav-spacer { display: flex; align-items: center; gap: 8px; visibility: hidden; }
+  .header-nav-spacer img { width: 44px; height: 44px; }
+  /* 窄螢幕塞不下三區塊：收掉佔位元素，回到左右兩端排版 */
+  @media (max-width: 560px) {
+    .header-nav-spacer { display: none; }
+  }
   .header-titles { text-align: center; margin-top: 16px; }
   .header-titles h1 { font-size: 22px; font-weight: 800; line-height: 1.4; }
   .subtitle { font-size: 14px; opacity: .92; margin-top: 8px; }
@@ -142,6 +148,13 @@
       </div>
     </div>
     <div class="dept-name">麻醉部</div>
+    <div class="header-nav-spacer" aria-hidden="true">
+      <img src="https://www.chgh.org.tw/Images/logoalone.png" alt="">
+      <div class="hosp-name">
+        <span class="hosp-sub">振興醫療財團法人</span>
+        <span class="hosp-main">振興醫院</span>
+      </div>
+    </div>
   </div>
   <div class="header-titles">
     <h1>認識您的麻醉</h1>
