@@ -82,7 +82,9 @@
     box-shadow: 0 1px 4px rgba(91,91,164,.08); transition: border-color .15s;
   }
   .site-card:active { border-color: var(--purple); }
-  .site-icon { font-size: calc(32px * var(--fs)); }
+  .site-icon { font-size: calc(32px * var(--fs)); height: 44px; display: flex; align-items: center; justify-content: center; }
+  .site-icon svg { width: 40px; height: 40px; }
+  .title-icon svg { width: 26px; height: 26px; vertical-align: -4px; }
   .site-label { font-size: calc(17.5px * var(--fs)); font-weight: 800; color: var(--purple-deep); margin-top: 4px; }
   .site-eg { font-size: calc(14px * var(--fs)); color: var(--text-sub); margin-top: 2px; }
 
@@ -319,10 +321,10 @@ const ANES = {
   },
   spinal: {
     name: "半身麻醉",
-    slogan: "「下半身麻掉，人是清醒的」",
-    process: "您側躺或坐著，麻醉醫師在背部消毒後打一針，把麻醉藥注入脊椎周圍的空間。幾分鐘內下半身逐漸發麻、無力；過程中您可以保持清醒，若您容易緊張，可與麻醉醫師討論搭配鎮靜的方式。",
-    feeling: "通常在注射後 5 到 15 分鐘內完全發揮，作用時間一般可維持 2 到 3 小時。術後下半身會經歷約 4 到 8 小時的麻木與暫時性無力，待藥物完全代謝後，腿部知覺與活動力就會恢復正常。",
-    risk: "打針後短暫的血壓下降較常見（會即時處理）；少數人術後有頭痛或背部痠痛，大多幾天內自行緩解；嚴重併發症非常罕見。",
+    slogan: "「暫時阻斷下半身的痛覺——您保持清醒，但不會疼痛」",
+    process: "您側躺並像蝦子一樣彎起身體，麻醉醫師在背部消毒後，將麻醉藥注入腰椎的脊髓腔或硬脊膜外腔，暫時阻斷下半身神經的痛覺。手術中您保持清醒；若您容易緊張，可與麻醉醫師討論搭配鎮靜的方式。",
+    feeling: "通常在注射後 5 到 15 分鐘內完全發揮，手術中不會感到疼痛，但可能仍感覺得到觸碰或牽拉的力量。作用時間一般可維持 2 到 3 小時；術後下半身會經歷約 4 到 8 小時的麻木與暫時性無力，待藥物完全代謝後，腿部知覺與活動力就會恢復正常。",
+    risk: "較常見的是打針後短暫的血壓下降（麻醉團隊會即時監測與處理）；少數人術後一至兩天內出現頭痛，躺下可緩解，補充水分與止痛藥後多能好轉。研究顯示，接受半身麻醉的人日後腰痠背痛的比例，與沒有接受的人並無差異。嚴重神經併發症極為罕見。",
   },
   sedation: {
     name: "鎮靜麻醉",
@@ -334,15 +336,21 @@ const ANES = {
 };
 
 /* ================= 手術部位 ================= */
+/* 沒有合適 emoji 的器官改用手繪 SVG 圖示 */
+const ICON_SVG = {
+  gut: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M29 4c-2 3-2 6 0 9" stroke="#d97b60" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M31 6c3 6 2 12-2 16-3 3-8 4-12 7-4 3-5 8-1 11 4 3 10 2 14-2 6-6 8-17 4-27z" fill="#f2a08c" stroke="#d97b60" stroke-width="2"/><path d="M7 40q4-4 8 0t8 0" stroke="#e8b08c" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`,
+  uterus: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M16 20C11 17 8 13 10 9" stroke="#e88ca0" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M32 20c5-3 8-7 6-11" stroke="#e88ca0" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="9" cy="8" r="3.5" fill="#c76b8f"/><circle cx="39" cy="8" r="3.5" fill="#c76b8f"/><path d="M24 14c-7 0-11 5-11 11 0 8 5 12 11 12s11-4 11-12c0-6-4-11-11-11z" fill="#e88ca0"/><rect x="20" y="36" width="8" height="8" rx="3" fill="#d97a92"/></svg>`,
+  breast: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M5 16Q24 6 43 16" stroke="#e8b0a8" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="15" cy="28" r="10" fill="#f6c9c0" stroke="#e0a89e" stroke-width="1.5"/><circle cx="33" cy="28" r="10" fill="#f6c9c0" stroke="#e0a89e" stroke-width="1.5"/><circle cx="15" cy="30" r="2.5" fill="#d98a80"/><circle cx="33" cy="30" r="2.5" fill="#d98a80"/></svg>`,
+};
 const COMMON = ["bis", "ani", "blanket", "aloxi", "acetamol", "dynastat", "multimodal", "byfavo", "precedex"];
 const SITES = [
   { id: "head",    icon: "🗣️", label: "頭頸部手術",   eg: "甲狀腺、頭頸腫瘤…",       main: ["ga"], alt: [],         items: ["tivaBis", "omt", "airway"] },
   { id: "brain",   icon: "🧠", label: "腦部手術",     eg: "神經外科手術…",           main: ["ga"], alt: [],         items: ["tivaBis", "omt"] },
   { id: "ent",     icon: "👁️", label: "眼科／耳鼻喉科手術", eg: "白內障、扁桃腺、中耳、鼻竇…", main: ["ga"], alt: [],         items: ["aloxi", "tivaBis", "airway", "omt"] },
   { id: "chest",   icon: "🫁", label: "胸腔／心臟手術", eg: "心臟、肺部…",           main: ["ga"], alt: [],         items: ["rso2", "neuroBlock", "ivPCA", "omt"] },
-  { id: "breast",  icon: "🎀", label: "乳房外科手術", eg: "乳房腫瘤、乳房重建…",     main: ["ga"], alt: [],         items: ["ivPCA", "neuroBlock", "naldebain", "tivaBis", "omt"] },
-  { id: "abdomen", icon: "🩺", label: "腹部手術",     eg: "膽囊、疝氣、腸胃、肝膽…", main: ["ga"], alt: ["spinal"], altNote: "部分下腹部手術", items: ["epiduralPCA", "ivPCA", "neuroBlock", "naldebain", "tivaBis", "omt"] },
-  { id: "gyn",     icon: "🌸", label: "婦科手術",     eg: "子宮、卵巢…",             main: ["ga", "spinal"], alt: [], items: ["ivPCA", "epiduralPCA", "naldebain", "precedex", "tivaBis", "omt"] },
+  { id: "breast",  icon: "", iconSvg: "breast", label: "乳房外科手術", eg: "乳房腫瘤、乳房重建…",     main: ["ga"], alt: [],         items: ["ivPCA", "neuroBlock", "naldebain", "tivaBis", "omt"] },
+  { id: "abdomen", icon: "", iconSvg: "gut", label: "腹部手術",     eg: "膽囊、疝氣、腸胃、肝膽…", main: ["ga"], alt: ["spinal"], altNote: "部分下腹部手術", items: ["epiduralPCA", "ivPCA", "neuroBlock", "naldebain", "tivaBis", "omt"] },
+  { id: "gyn",     icon: "", iconSvg: "uterus", label: "婦科手術",     eg: "子宮、卵巢…",             main: ["ga", "spinal"], alt: [], items: ["ivPCA", "epiduralPCA", "naldebain", "precedex", "tivaBis", "omt"] },
   { id: "ob",      icon: "🤰", label: "產科手術",     eg: "剖腹產…",                 main: ["spinal"], alt: [],     items: ["ivPCA", "epiduralPCA", "naldebain", "precedex"] },
   { id: "ortho",   icon: "🦴", label: "骨科四肢手術", eg: "關節、骨折、韌帶…",       main: ["spinal", "ga"], alt: [], items: ["neuroBlock", "ivPCA", "naldebain", "sedation", "omt"] },
   { id: "spine",   icon: "🩻", label: "脊椎手術",     eg: "椎間盤、脊椎融合…",       main: ["ga"], alt: [],         items: ["ivPCA", "multimodal", "naldebain", "omt"] },
@@ -363,10 +371,11 @@ function goHome() { show("view-home"); document.getElementById("summary-bar").st
 function backToSite() { show("view-site"); document.getElementById("summary-bar").style.display = "block"; }
 
 /* ---------- 首頁 ---------- */
+function siteIcon(s) { return s.iconSvg ? ICON_SVG[s.iconSvg] : s.icon; }
 function renderHome() {
   document.getElementById("site-grid").innerHTML = SITES.map(s => `
     <div class="site-card" onclick="openSite('${s.id}')">
-      <div class="site-icon">${s.icon}</div>
+      <div class="site-icon">${siteIcon(s)}</div>
       <div class="site-label">${s.label}</div>
       <div class="site-eg">${s.eg}</div>
     </div>`).join("");
@@ -406,7 +415,7 @@ function openSite(id) {
   if (currentSite && currentSite.id !== id) checked.clear();
   currentSite = SITES.find(s => s.id === id);
   const s = currentSite;
-  document.getElementById("site-title").textContent = s.icon + " " + s.label;
+  document.getElementById("site-title").innerHTML = `<span class="title-icon">${siteIcon(s)}</span> ${s.label}`;
   document.getElementById("anes-list").innerHTML =
     s.main.map(k => anesCard(k, true)).join("") +
     s.alt.map(k => anesCard(k, false, s.altNote)).join("");
@@ -430,7 +439,7 @@ function updateSummaryBtn() {
   btn.disabled = checked.size === 0;
 }
 function showSummary() {
-  document.getElementById("sum-site").textContent = currentSite ? currentSite.icon + " " + currentSite.label : "—";
+  document.getElementById("sum-site").textContent = currentSite ? currentSite.label : "—";
   document.getElementById("sum-list").innerHTML = [...checked].map(k => `
     <div class="sum-item"><span>${ITEMS[k].name}</span><span class="p">${PRICES[k]}</span></div>`).join("");
   document.getElementById("summary-bar").style.display = "none";
@@ -485,7 +494,7 @@ function saveSummaryImage() {
   let y = 210 + 62;
   x.textAlign = "left"; x.fillStyle = "#333333";
   x.font = "700 32px sans-serif";
-  x.fillText("手術部位：" + (currentSite ? currentSite.icon + " " + currentSite.label : "—"), pad, y);
+  x.fillText("手術部位：" + (currentSite ? currentSite.label : "—"), pad, y);
   y += 34;
   x.strokeStyle = "#5b5ba4"; x.lineWidth = 3;
   x.beginPath(); x.moveTo(pad, y); x.lineTo(W - pad, y); x.stroke();
